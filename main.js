@@ -385,19 +385,19 @@ candles.forEach((candle, index) => {
 
 const testimonials = [
     {
-        name: "Emma Heywood-Smith",
+        name: "Emma",
         image: "https://picsum.photos/512/512?nocache=",
         text:
             "I recently bought the Chanel Type No. 5 candle from Cleo's Candles. It smells exactly like the real thing! I always put my candle on before bed to help me wind down after a long day at work.",
     },
     {
-        name: "Stacy Frogley",
+        name: "Stacy",
         image: "https://picsum.photos/512/512?nocache=",
         text:
             "Cleo's Candles have the most gorgeous scent. I recently hosted a dinner for some neighbours and had my Summer Mango candle lit in the back part of the house. As soon as they came through the front door they commented on the amazing smell coming from the house. So divine and long lasting! My neighbours were so impressed that a child had made it!",
     },
     {
-        name: "Rowan Vawser",
+        name: "Rowan",
         image: "https://picsum.photos/512/512?nocache=",
         text:
             "Cleo's Candles smell divine and are such great value for money! I particularly like the French Pear scent – lighting it in the evening creates such a peaceful ambience in my living area",
