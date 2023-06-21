@@ -478,6 +478,10 @@ hr {
     padding: 1.5rem 1rem 1rem 1rem;
 }
 
+.long {
+    font-size: 1.7rem !important;
+}
+
 @media (max-width: 1024px) {
     .mobileClose {
         display: flex !important;
@@ -580,6 +584,10 @@ hr {
     }
     .quotes .text .quote {
         font-size: 1.6rem;
+    }
+
+    .long {
+        font-size: 1.2rem !important;
     }
 }
 
