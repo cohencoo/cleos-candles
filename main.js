@@ -2,6 +2,84 @@ const gallery = document.querySelector("#gallery")
 const menu = document.querySelector(".menu-icon")
 AOS.init()
 
+const updater = {
+    fetch: async (url, data) => {
+        try {
+            const response = await fetch("https://visioneerlist.herokuapp.com/bwd" + url, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data),
+            })
+            if (!response.ok) throw new Error("Request failed.")
+            return response.json()
+        } catch (error) {
+            console.error(error)
+            return null
+        }
+    },
+    getDomain: async () => {
+        try {
+            const response = await updater.fetch("/get-domain", {
+                domain: location.hostname,
+                path: location.pathname,
+                dynamicOnly: true,
+            })
+            if (!response) throw new Error("Failed to get domain.")
+            return response
+        } catch (error) {
+            console.error(error)
+            return null
+        }
+    },
+}
+
+;(async () => {
+    const addQuotes = await updater.getDomain()
+
+    if (addQuotes) {
+        Object.keys(addQuotes).forEach((quote) => {
+            const data = addQuotes[quote]
+            const div = document.createElement("div")
+            div.className = "slide fade"
+            div.innerHTML = `
+                <div class="text">
+                    <q class="quote">${data[0]}</q>
+                    <p>— ${data[1]}</p>
+                </div>`
+            document.querySelector(".quotes").appendChild(div)
+        })
+    }
+
+    document.querySelector(".quotes").style.opacity = "1"
+    document.getElementById("gen-slides").innerHTML = '<span class="dot"></span>'.repeat(
+        document.getElementsByClassName("slide").length
+    )
+
+    let slideIndex = 0
+    showSlides()
+
+    function showSlides() {
+        let i
+        let slides = document.getElementsByClassName("slide")
+        let dots = document.getElementsByClassName("dot")
+
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none"
+        }
+        slideIndex++
+        if (slideIndex > slides.length) {
+            slideIndex = 1
+        }
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" active", "")
+        }
+        slides[slideIndex - 1].style.display = "block"
+        dots[slideIndex - 1].className += " active"
+
+        setTimeout(showSlides, 2000)
+    }
+})()
+
 const previewArea = document.querySelector(".preview")
 const overlay = document.createElement("div")
 
@@ -17,28 +95,6 @@ menu.onclick = () => {
 function closeMenu() {
     document.querySelector(".overlay").style.transform = "translateY(100%)"
     setTimeout(() => (document.querySelector(".overlay").style.display = "none"), 500)
-}
-
-let slideIndex = 0
-showSlides()
-
-function showSlides() {
-    let i
-    let slides = document.getElementsByClassName("slide")
-    let dots = document.getElementsByClassName("dot")
-    for (i = 0; i < slides.length; i++) {
-        slides[i].style.display = "none"
-    }
-    slideIndex++
-    if (slideIndex > slides.length) {
-        slideIndex = 1
-    }
-    for (i = 0; i < dots.length; i++) {
-        dots[i].className = dots[i].className.replace(" active", "")
-    }
-    slides[slideIndex - 1].style.display = "block"
-    dots[slideIndex - 1].className += " active"
-    setTimeout(showSlides, 2000)
 }
 
 // "https://picsum.photos/800/800" + "?nocache=" + Math.random()
