@@ -33,9 +33,31 @@ const updater = {
     },
 }
 
+let slideIndex = 0
+let timer = null
+showSlides()
+
+function showSlides() {
+    let i
+    let slides = document.getElementsByClassName("slide")
+    let dots = document.getElementsByClassName("dot")
+
+    document.querySelector(".quotes").style.opacity = "1"
+    document.getElementById("gen-slides").innerHTML = '<span class="dot"></span>'.repeat(
+        slides.length
+    )
+
+    for (i = 0; i < slides.length; i++) slides[i].style.display = "none"
+    slideIndex++
+    if (slideIndex > slides.length) slideIndex = 1
+    for (i = 0; i < dots.length; i++) dots[i].className = dots[i].className.replace(" active", "")
+    slides[slideIndex - 1].style.display = "block"
+    dots[slideIndex - 1].className += " active"
+    timer = setTimeout(showSlides, 2000)
+}
+
 ;(async () => {
     const addQuotes = await updater.getDomain()
-
     if (addQuotes) {
         Object.keys(addQuotes).forEach((quote) => {
             const data = addQuotes[quote]
@@ -49,35 +71,8 @@ const updater = {
             document.querySelector(".quotes").appendChild(div)
         })
     }
-
-    document.querySelector(".quotes").style.opacity = "1"
-    document.getElementById("gen-slides").innerHTML = '<span class="dot"></span>'.repeat(
-        document.getElementsByClassName("slide").length
-    )
-
-    let slideIndex = 0
+    clearTimeout(timer)
     showSlides()
-
-    function showSlides() {
-        let i
-        let slides = document.getElementsByClassName("slide")
-        let dots = document.getElementsByClassName("dot")
-
-        for (i = 0; i < slides.length; i++) {
-            slides[i].style.display = "none"
-        }
-        slideIndex++
-        if (slideIndex > slides.length) {
-            slideIndex = 1
-        }
-        for (i = 0; i < dots.length; i++) {
-            dots[i].className = dots[i].className.replace(" active", "")
-        }
-        slides[slideIndex - 1].style.display = "block"
-        dots[slideIndex - 1].className += " active"
-
-        setTimeout(showSlides, 2000)
-    }
 })()
 
 const previewArea = document.querySelector(".preview")
