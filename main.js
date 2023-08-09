@@ -92,6 +92,12 @@ function closeMenu() {
     setTimeout(() => (document.querySelector(".overlay").style.display = "none"), 500)
 }
 
+const urlParams = new URLSearchParams(window.location.search)
+if (urlParams.get("token")) {
+    document.querySelector(".preview").style.position = "relative"
+    document.querySelector(".preview").style.top = "0"
+}
+
 // "https://picsum.photos/800/800" + "?nocache=" + Math.random()
 const candles = [
     {
